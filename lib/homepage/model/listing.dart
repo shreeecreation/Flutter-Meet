@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:flutter/services.dart' as rootBundle;
+
 class ProductDetails {
   String? _productName;
   String? _image;
@@ -83,4 +87,14 @@ class ProductDetails {
     data['ratings'] = _ratings;
     return data;
   }
+}
+
+Future<List<ProductDetails>> ReadJsonData() async {
+  //read json file
+  final jsondata = await rootBundle.rootBundle.loadString("lib/homepage/domain/listing.json");
+  //decode json data as list
+  final list = json.decode(jsondata) as List<dynamic>;
+
+  //map json and initialize using DataModel
+  return list.map((e) => ProductDetails.fromJson(e)).toList();
 }
